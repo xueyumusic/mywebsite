@@ -20,13 +20,29 @@ module.exports = {
   module: {
     rules: [
       { test: /\.(js|jsx)$/, loader:'babel-loader', exclude: /node_modules/, options: { presets: ['es2015','react', 'stage-2']} },
-      { test: /\.css$/, loader: ExtractTextPlugin.extract({
+      { test: /\.bss$/, 
+        loader: ExtractTextPlugin.extract({
           fallback: [{ loader: 'style-loader' }],
-          use: [{ loader : "css-loader?modules&importLoaders=1&localIndentName=[name]__[local]__[hash:base64:5]" }],
-      })  }
+          use: [{ loader : "css-loader" }],      
+        })  
+      },
+      
+      { test: /\.css$/, 
+        loader: ExtractTextPlugin.extract({
+          fallback: [{ loader: 'style-loader' }],
+          use: [{ loader : "css-loader?modules&importLoaders=1&localIndentName=[name]__[local]__[hash:base64:5]" }],      
+        })  
+      }
     ],
   },
   plugins: [
     new ExtractTextPlugin("styles.css"),
-  ]
+  ],
+  devServer: {
+    contentBase: path.join(__dirname, "/"),
+    //compress: true,
+    port: 9000,
+    hot: true,
+    watchContentBase: true,
+  }
 };
